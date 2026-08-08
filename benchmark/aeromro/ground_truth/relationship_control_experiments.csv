@@ -1,0 +1,5 @@
+﻿experiment_id,scenario_sql,config_file,physical_fk_present,alternative_control,exception_approved,expected_control_score_band,expected_orphan_rate,expected_bottom_line,purpose
+REL-BASELINE-PHYSICAL,none,aeromro_benchmark.yaml,yes,scheduled_audit,not_applicable,0.95-1.00,0,no,验证可信物理外键是强控制
+REL-CONTROLLED-NO-FK,SG3_controlled_no_physical_fk.sql,aeromro_controlled_no_fk.yaml,no,application_validation+hourly_audit,yes,0.85-0.95,0,no,验证无物理外键不被自动误罚
+REL-UNCONTROLLED-NO-FK,SG3_uncontrolled_no_physical_fk.sql,aeromro_uncontrolled_no_fk.yaml,no,documentation_only,no,0.00-0.10,0 before workload,yes,验证关系完整性控制不足可在数据错误出现前被识别
+REL-PROPAGATION,SG3_uncontrolled_no_physical_fk.sql + W_SG3_orphan_part_propagation.sql,aeromro_uncontrolled_no_fk.yaml,no,documentation_only,no,0.00-0.10,>0,yes,验证结构控制缺口向DQ6孤儿记录传播

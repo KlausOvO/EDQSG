@@ -1,0 +1,218 @@
+{
+  "tables": {
+    "part_master": "data/part_master.csv",
+    "part_instance": "data/part_instance.csv",
+    "inventory_transaction": "data/inventory_transaction.csv"
+  },
+  "evidence_reliability": {
+    "coverage": 0.95,
+    "authority": 0.90,
+    "timeliness": 0.90,
+    "repeatability": 0.95,
+    "business_fit": 0.90
+  },
+  "stale_max_age_days": 90,
+  "dq_rules": {
+    "DQ1": {
+      "name": "完整性",
+      "checks": [
+        {"table": "part_master", "columns": ["part_name"], "metric_key": "raw.missing_rate.part_name"},
+        {"table": "part_instance", "columns": ["certificate_no"], "metric_key": "raw.missing_rate.certificate"},
+        {"table": "inventory_transaction", "columns": ["operator"], "metric_key": "raw.missing_rate.operator"}
+      ]
+    },
+    "DQ2": {
+      "name": "准确性",
+      "checks": [
+        {"child_table": "part_instance", "child_link": "part_id", "child_column": "serial_no",
+         "parent_table": "part_master", "parent_link": "part_id", "parent_column": "serial_no"}
+      ]
+    },
+    "DQ3": {
+      "name": "规范性",
+      "checks": [
+        {"table": "part_master", "column": "country_code", "allowed": ["CN", "US", "DE", "JP"]}
+      ]
+    },
+    "DQ4": {
+      "name": "唯一性",
+      "checks": [
+        {"table": "part_master", "columns": ["serial_no"]}
+      ]
+    },
+    "DQ5": {
+      "name": "一致性",
+      "checks": [
+        {"child_table": "inventory_transaction", "child_link": "part_id", "child_column": "serial_no",
+         "parent_table": "part_master", "parent_link": "part_id", "parent_column": "serial_no"}
+      ]
+    },
+    "DQ6": {
+      "name": "关联完整性",
+      "checks": [
+        {"child_table": "part_instance", "child_column": "part_id", "parent_table": "part_master", "parent_column": "part_id"},
+        {"child_table": "inventory_transaction", "child_column": "part_id", "parent_table": "part_master", "parent_column": "part_id"}
+      ]
+    },
+    "DQ7": {
+      "name": "时效性",
+      "checks": [
+        {"table": "part_master", "column": "updated_at"},
+        {"table": "part_instance", "column": "updated_at"},
+        {"table": "inventory_transaction", "column": "updated_at"}
+      ]
+    },
+    "DQ8": {
+      "name": "可追溯性",
+      "checks": [
+        {"table": "part_instance", "columns": ["operator"]},
+        {"table": "inventory_transaction", "columns": ["operator"]}
+      ]
+    }
+  },
+  "relationship_controls": [
+    {
+      "relationship_id": "REL-INST-PART",
+      "child_table": "part_instance",
+      "child_column": "part_id",
+      "parent_table": "part_master",
+      "parent_column": "part_id",
+      "control_coverage": 0.99,
+      "control_reliability": 0.95,
+      "operating_effectiveness": 0.98
+    },
+    {
+      "relationship_id": "REL-TXN-PART",
+      "child_table": "inventory_transaction",
+      "child_column": "part_id",
+      "parent_table": "part_master",
+      "parent_column": "part_id",
+      "control_coverage": 0.90,
+      "control_reliability": 0.85,
+      "operating_effectiveness": 0.88
+    }
+  ],
+  "master_data_authority": {
+    "authority_source": "part_master",
+    "authority_coverage": 0.95
+  },
+  "sg_extra": [
+    {"indicator_id": "SG1", "name": "字段设计", "score": 70},
+    {"indicator_id": "SG2", "name": "表模型", "score": 75},
+    {"indicator_id": "SG4", "name": "关系清晰性", "score": 65},
+    {"indicator_id": "SG5", "name": "字段冗余", "score": 80},
+    {"indicator_id": "SG6", "name": "表冗余", "score": 85},
+    {"indicator_id": "SG8", "name": "生命周期与互操作", "score": 72}
+  ],
+  "coupling": [
+    {"dq": "DQ6", "sg": "SG3", "strength": 0.80, "confidence": 0.75},
+    {"dq": "DQ5", "sg": "SG7", "strength": 0.60, "confidence": 0.70},
+    {"dq": "DQ2", "sg": "SG7", "strength": 0.50, "confidence": 0.60}
+  ],
+  "bottom_line_rules": [
+    {
+      "rule_id": "BL-DUP-SERIAL",
+      "description": "关键件号重复",
+      "cap": 60,
+      "penalty": 0,
+      "severity_level": 1,
+      "target_object": "器材主数据表 serial_no",
+      "condition": {"metric": "raw.dup_rate", "operator": ">", "value": 0.0}
+    },
+    {
+      "rule_id": "BL-CERT-MISSING",
+      "description": "关键证书缺失",
+      "cap": 60,
+      "penalty": 0,
+      "severity_level": 1,
+      "target_object": "器材实例 certificate_no",
+      "condition": {"metric": "raw.missing_rate.certificate", "operator": ">", "value": 0.0}
+    },
+    {
+      "rule_id": "BL-ORPHAN",
+      "description": "关键引用产生孤儿记录",
+      "cap": 77.5,
+      "penalty": 0,
+      "severity_level": 2,
+      "target_object": "库存事务与器材实例对主数据引用",
+      "condition": {"metric": "raw.orphan_rate", "operator": ">", "value": 0.005}
+    }
+  ],
+  "governance_templates": [
+    {
+      "template_id": "TPL-SG3",
+      "sg_indicator_id": "SG3",
+      "target_object": "器材引用关系",
+      "root_cause": "关系完整性控制不足",
+      "lifecycle_stage": "运行",
+      "measures": ["登记逻辑关系", "增加写入校验门禁", "建立每月孤儿自动检测"],
+      "actors": ["数据库管理员", "库存系统负责人"],
+      "acceptance_metrics": {"孤儿率": 0.005},
+      "task_layer": "STRUCTURE_GOVERNANCE",
+      "severity": 0.8,
+      "impact": 0.8,
+      "urgency": 0.7,
+      "cost": 0.4
+    },
+    {
+      "template_id": "TPL-SG7",
+      "sg_indicator_id": "SG7",
+      "target_object": "器材主数据",
+      "root_cause": "主数据权威性不足",
+      "lifecycle_stage": "创建",
+      "measures": ["明确单一权威源", "建立跨表同步控制"],
+      "actors": ["主数据管理员"],
+      "acceptance_metrics": {"引用一致率": 1.0},
+      "task_layer": "MECHANISM_GOVERNANCE",
+      "severity": 0.6,
+      "impact": 0.7,
+      "urgency": 0.6,
+      "cost": 0.3
+    },
+    {
+      "template_id": "TPL-BL-DUP",
+      "bottom_line_rule_id": "BL-DUP-SERIAL",
+      "target_object": "重复关键件号",
+      "root_cause": "唯一控制缺失",
+      "lifecycle_stage": "创建",
+      "measures": ["合并重复件号", "追溯装机记录"],
+      "actors": ["数据负责人"],
+      "acceptance_metrics": {"业务键重复率": 0.0},
+      "task_layer": "DATA_REPAIR",
+      "severity": 1.0,
+      "impact": 1.0,
+      "urgency": 1.0,
+      "cost": 0.5
+    },
+    {
+      "template_id": "TPL-BL-CERT",
+      "bottom_line_rule_id": "BL-CERT-MISSING",
+      "target_object": "缺失证书",
+      "root_cause": "必填控制缺失",
+      "lifecycle_stage": "接收",
+      "measures": ["补齐证书资料", "增加证书必填校验"],
+      "actors": ["检验数据负责人"],
+      "acceptance_metrics": {"证书完整率": 1.0},
+      "task_layer": "DATA_REPAIR",
+      "severity": 1.0,
+      "impact": 1.0,
+      "urgency": 1.0,
+      "cost": 0.4
+    },
+    {
+      "template_id": "TPL-BL-ORPHAN",
+      "bottom_line_rule_id": "BL-ORPHAN",
+      "target_object": "孤儿引用记录",
+      "root_cause": "关系完整性控制不足",
+      "lifecycle_stage": "运行",
+      "measures": ["修复孤儿引用", "登记逻辑关系"],
+      "actors": ["数据库管理员", "库存系统负责人"],
+      "acceptance_metrics": {"孤儿率": 0.005},
+      "task_layer": "DATA_REPAIR",
+      "severity": 0.9,
+      "impact": 0.8,
+      "urgency": 0.8,
+      "cost": 0.4
+    }
+  ]
+}

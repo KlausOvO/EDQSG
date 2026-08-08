@@ -1,0 +1,21 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+dist/
+build/
+*.egg-info/
+
+# 大型公开基准数据（可用 benchmark/public/download_holoclean.py 重新下载）
+benchmark/public/data/
+
+# 离线评测生成的输出（可重新生成）
+examples/csv/output/
+examples/csv/output_paper/
+
+# IDE / 系统
+.vscode/
+.idea/
+*.log
+.DS_Store
+Thumbs.db

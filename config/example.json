@@ -1,0 +1,16 @@
+{
+  "version": "0.2.0",
+  "alpha": 0.5,
+  "grade_utilities": [100, 85, 70, 50, 20],
+  "grade_boundaries": [85, 70, 50, 20],
+  "evidence_eta": [0.30, 0.25, 0.20, 0.15, 0.10],
+  "evidence_conflict_review_threshold": 0.55,
+  "evidence_conflict_extreme_threshold": 0.98,
+  "coupling_strength_weights": [0.35, 0.35, 0.30],
+  "coupling_confidence_weights": [0.35, 0.35, 0.30],
+  "coupling_smoothing_gamma": 0.20,
+  "redundancy_risk_thresholds": [0.15, 0.35, 0.60],
+  "root_cause_threshold": 0.005,
+  "robustness_iterations": 500,
+  "robustness_perturbation": 0.10
+}

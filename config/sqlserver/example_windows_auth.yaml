@@ -1,0 +1,27 @@
+database:
+  server: "SERVER01"
+  database: "EquipmentDB"
+  authentication: "windows"
+  driver: "ODBC Driver 18 for SQL Server"
+  encrypt: true
+  trust_server_certificate: true
+
+scan:
+  schemas: ["dbo"]
+  profile_mode: "metadata"
+  sample_rows: 10000
+
+rules:
+  critical_tables: ["dbo.Equipment"]
+
+output_dir: "output/sqlserver"
+
+visualization:
+  enabled: true
+  formats: ["png", "svg"]
+  dpi: 300
+  top_n: 15
+  generate_dashboard: true
+  generate_robustness: false
+  robustness_iterations: 500
+  robustness_perturbation: 0.10

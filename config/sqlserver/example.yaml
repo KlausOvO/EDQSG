@@ -1,0 +1,100 @@
+database:
+  server: "192.168.1.20"
+  port: 1433
+  database: "EquipmentDB"
+  authentication: "sql"       # sql 或 windows
+  username: "edqsg_reader"
+  password_env: "EDQSG_DB_PASSWORD"
+  driver: "ODBC Driver 18 for SQL Server"
+  encrypt: true
+  trust_server_certificate: true
+  login_timeout: 30
+  query_timeout: 180
+
+scan:
+  schemas: ["dbo"]
+  include_tables: []
+  exclude_tables: ["sysdiagrams"]
+  profile_mode: "sample"       # metadata / sample / full
+  sample_rows: 10000
+  max_tables: null
+  max_columns_per_table: null
+  detect_field_redundancy: true
+  detect_table_redundancy: true
+  max_redundancy_pairs: 500
+
+rules:
+  critical_tables:
+    - "dbo.Equipment"
+
+  required_columns:
+    - table: "dbo.Equipment"
+      column: "equipment_code"
+      description: "器材编码必须填写"
+      bottom_line: true
+
+  business_keys:
+    - table: "dbo.Equipment"
+      columns: ["equipment_code"]
+      description: "器材编码应唯一"
+      bottom_line_threshold: 0.001
+
+  freshness_rules:
+    - table: "dbo.Equipment"
+      column: "updated_at"
+      max_age_days: 365
+      description: "器材主数据一年内应复核或更新"
+
+  domain_rules:
+    - table: "dbo.Equipment"
+      column: "status_code"
+      allowed_values: ["ACTIVE", "REPAIR", "SCRAPPED"]
+      description: "器材状态代码集"
+
+  custom_sql_rules:
+    - rule_id: "R-STOCK-NONNEGATIVE"
+      indicator_id: "DQ2"
+      table: "dbo.StockDetail"
+      invalid_condition_sql: "quantity < 0"
+      description: "库存数量不得为负"
+      bottom_line_cap: 50
+      bottom_line_penalty: 0
+
+  master_data_groups:
+    - entity_name: "器材"
+      authoritative_table: "dbo.Equipment"
+      related_tables: ["dbo.StockDetail", "dbo.RepairOrder"]
+
+# 未显式配置时，DQ1-DQ8和SG1-SG8均采用等权。
+dq_weights:
+  DQ1: 0.125
+  DQ2: 0.125
+  DQ3: 0.125
+  DQ4: 0.125
+  DQ5: 0.125
+  DQ6: 0.125
+  DQ7: 0.125
+  DQ8: 0.125
+
+sg_weights:
+  SG1: 0.125
+  SG2: 0.125
+  SG3: 0.125
+  SG4: 0.125
+  SG5: 0.125
+  SG6: 0.125
+  SG7: 0.125
+  SG8: 0.125
+
+output_dir: "output/sqlserver"
+
+# 统计图与论文图输出。稳健性分析会增加运行时间，正式论文实验时再开启。
+visualization:
+  enabled: true
+  formats: ["png", "svg"]
+  dpi: 300
+  top_n: 15
+  generate_dashboard: true
+  generate_robustness: false
+  robustness_iterations: 500
+  robustness_perturbation: 0.10

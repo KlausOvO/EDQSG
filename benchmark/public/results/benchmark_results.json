@@ -1,0 +1,846 @@
+{
+  "datasets": [
+    {
+      "dataset": "hospital",
+      "dirty_file": "hospital.csv",
+      "clean_file": "hospital_clean.csv",
+      "rows": 1000,
+      "columns": 7,
+      "monitored_cells": 7000,
+      "truth": {
+        "total_defects": 202,
+        "by_type": {
+          "wrong_value": 202
+        },
+        "defect_rate": 0.0289
+      },
+      "rule_observability": {
+        "DQ1": 0.3,
+        "DQ3": 0.6
+      },
+      "detectors": [
+        {
+          "rule": "DQ1",
+          "kind": "missing",
+          "column": "",
+          "flagged": 0,
+          "rate": 0.0,
+          "true_positive": 0,
+          "false_positive": 0,
+          "false_negative": 202,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        {
+          "rule": "DQ3",
+          "kind": "domain",
+          "column": "State",
+          "flagged": 26,
+          "rate": 0.0037,
+          "true_positive": 26,
+          "false_positive": 0,
+          "false_negative": 176,
+          "precision": 1.0,
+          "recall": 0.1287,
+          "f1": 0.2281
+        },
+        {
+          "rule": "DQ3",
+          "kind": "domain",
+          "column": "EmergencyService",
+          "flagged": 27,
+          "rate": 0.0039,
+          "true_positive": 27,
+          "false_positive": 0,
+          "false_negative": 175,
+          "precision": 1.0,
+          "recall": 0.1337,
+          "f1": 0.2358
+        },
+        {
+          "rule": "DQ3",
+          "kind": "format",
+          "column": "ZipCode",
+          "flagged": 30,
+          "rate": 0.0043,
+          "true_positive": 30,
+          "false_positive": 0,
+          "false_negative": 172,
+          "precision": 1.0,
+          "recall": 0.1485,
+          "f1": 0.2586
+        },
+        {
+          "rule": "DQ3",
+          "kind": "format",
+          "column": "ProviderNumber",
+          "flagged": 28,
+          "rate": 0.004,
+          "true_positive": 28,
+          "false_positive": 0,
+          "false_negative": 174,
+          "precision": 1.0,
+          "recall": 0.1386,
+          "f1": 0.2435
+        }
+      ],
+      "union_detection": {
+        "flagged": 111,
+        "true_positive": 111,
+        "false_positive": 0,
+        "false_negative": 91,
+        "precision": 1.0,
+        "recall": 0.5495,
+        "f1": 0.7093
+      },
+      "edqsg": {
+        "status": "evaluated",
+        "dq_score": 99.57,
+        "dq_confidence": 0.57,
+        "sg_score": 100.0,
+        "sg_confidence": 0.95,
+        "initial_score": 99.79,
+        "final_score": 99.79,
+        "grade": "优",
+        "evidence_coverage": 0.5,
+        "excluded_indicators": [
+          "DQ1"
+        ],
+        "review_indicators": [
+          "DQ1",
+          "DQ3"
+        ],
+        "bottom_line_triggers": [],
+        "root_causes": [],
+        "indicator_results": [
+          {
+            "indicator_id": "DQ1",
+            "score": 100.0,
+            "confidence": 0.285,
+            "unknown": 0.715,
+            "review_state": "insufficient_evidence"
+          },
+          {
+            "indicator_id": "DQ3",
+            "score": 99.57,
+            "confidence": 0.57,
+            "unknown": 0.43,
+            "review_state": "insufficient_evidence"
+          },
+          {
+            "indicator_id": "SG3",
+            "score": 100.0,
+            "confidence": 0.95,
+            "unknown": 0.05,
+            "review_state": "none"
+          },
+          {
+            "indicator_id": "SG7",
+            "score": 100.0,
+            "confidence": 0.95,
+            "unknown": 0.05,
+            "review_state": "none"
+          }
+        ]
+      },
+      "baseline": {
+        "weighted_average_score": 99.89,
+        "grade": "优",
+        "score_diff": -0.11
+      },
+      "ablation_unknown_decoupled": {
+        "score": 63.64,
+        "grade": "中",
+        "score_diff": 36.15
+      },
+      "ablation_no_bottom_line": {
+        "final_score": 99.79,
+        "grade": "优",
+        "score_diff": 0.0
+      },
+      "sensitivity": {
+        "max_abs_score_change": 0.02,
+        "grade_flip_rate": 0.0,
+        "min_root_top_k_overlap": 1.0,
+        "cases": 18
+      },
+      "robustness": {
+        "policy_inclusive": {
+          "iterations": 300,
+          "perturbation": 0.1,
+          "baseline_score": 99.79,
+          "score_mean": 99.79,
+          "score_std": 0.01,
+          "score_q05": 99.77,
+          "score_q50": 99.79,
+          "score_q95": 99.8,
+          "grade_flip_rate": 0.0
+        },
+        "model_only": {
+          "iterations": 300,
+          "perturbation": 0.1,
+          "baseline_score": 99.79,
+          "score_mean": 99.79,
+          "score_std": 0.01,
+          "score_q05": 99.77,
+          "score_q50": 99.79,
+          "score_q95": 99.8,
+          "grade_flip_rate": 0.0
+        }
+      },
+      "contamination": {
+        "dataset": "hospital",
+        "levels": [
+          {
+            "level": 0.0,
+            "score": 100.0,
+            "grade": "优"
+          },
+          {
+            "level": 0.05,
+            "score": 99.59202492454617,
+            "grade": "优"
+          },
+          {
+            "level": 0.1,
+            "score": 99.22557274067147,
+            "grade": "优"
+          },
+          {
+            "level": 0.2,
+            "score": 98.45956385382637,
+            "grade": "优"
+          },
+          {
+            "level": 0.3,
+            "score": 97.76794683622761,
+            "grade": "优"
+          },
+          {
+            "level": 0.4,
+            "score": 96.98306184955334,
+            "grade": "优"
+          },
+          {
+            "level": 0.6,
+            "score": 95.41638074400913,
+            "grade": "优"
+          }
+        ],
+        "spearman": -1.0,
+        "bootstrap_95ci": [
+          -1.0,
+          -1.0
+        ]
+      },
+      "block_correlation": {
+        "spearman_truth_vs_edqsg": -0.4793,
+        "spearman_truth_vs_wavg": -0.4793
+      },
+      "blocks": [
+        {
+          "block": 1,
+          "rows": 100,
+          "truth_defect_rate": 0.04,
+          "edqsg_score": 99.64,
+          "edqsg_grade": "优",
+          "weighted_average_score": 99.82,
+          "evidence_coverage": 0.5
+        },
+        {
+          "block": 2,
+          "rows": 100,
+          "truth_defect_rate": 0.02,
+          "edqsg_score": 99.64,
+          "edqsg_grade": "优",
+          "weighted_average_score": 99.82,
+          "evidence_coverage": 0.5
+        },
+        {
+          "block": 3,
+          "rows": 100,
+          "truth_defect_rate": 0.0257,
+          "edqsg_score": 99.71,
+          "edqsg_grade": "优",
+          "weighted_average_score": 99.86,
+          "evidence_coverage": 0.5
+        },
+        {
+          "block": 4,
+          "rows": 100,
+          "truth_defect_rate": 0.0371,
+          "edqsg_score": 99.57,
+          "edqsg_grade": "优",
+          "weighted_average_score": 99.79,
+          "evidence_coverage": 0.5
+        },
+        {
+          "block": 5,
+          "rows": 100,
+          "truth_defect_rate": 0.0243,
+          "edqsg_score": 99.64,
+          "edqsg_grade": "优",
+          "weighted_average_score": 99.82,
+          "evidence_coverage": 0.5
+        },
+        {
+          "block": 6,
+          "rows": 100,
+          "truth_defect_rate": 0.0314,
+          "edqsg_score": 99.64,
+          "edqsg_grade": "优",
+          "weighted_average_score": 99.82,
+          "evidence_coverage": 0.5
+        },
+        {
+          "block": 7,
+          "rows": 100,
+          "truth_defect_rate": 0.0257,
+          "edqsg_score": 99.64,
+          "edqsg_grade": "优",
+          "weighted_average_score": 99.82,
+          "evidence_coverage": 0.5
+        },
+        {
+          "block": 8,
+          "rows": 100,
+          "truth_defect_rate": 0.0343,
+          "edqsg_score": 99.5,
+          "edqsg_grade": "优",
+          "weighted_average_score": 99.75,
+          "evidence_coverage": 0.5
+        },
+        {
+          "block": 9,
+          "rows": 100,
+          "truth_defect_rate": 0.0243,
+          "edqsg_score": 99.79,
+          "edqsg_grade": "优",
+          "weighted_average_score": 99.89,
+          "evidence_coverage": 0.5
+        },
+        {
+          "block": 10,
+          "rows": 100,
+          "truth_defect_rate": 0.0257,
+          "edqsg_score": 99.86,
+          "edqsg_grade": "优",
+          "weighted_average_score": 99.93,
+          "evidence_coverage": 0.5
+        }
+      ]
+    },
+    {
+      "dataset": "adult",
+      "dirty_file": "adult_dirty0.1.csv",
+      "clean_file": "adult_clean.csv",
+      "rows": 1100,
+      "columns": 11,
+      "monitored_cells": 12100,
+      "truth": {
+        "total_defects": 1182,
+        "by_type": {
+          "wrong_value": 1182
+        },
+        "defect_rate": 0.0977
+      },
+      "rule_observability": {
+        "DQ1": 0.3,
+        "DQ3": 0.3
+      },
+      "detectors": [
+        {
+          "rule": "DQ1",
+          "kind": "missing",
+          "column": "",
+          "flagged": 0,
+          "rate": 0.0,
+          "true_positive": 0,
+          "false_positive": 0,
+          "false_negative": 1182,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        {
+          "rule": "DQ3",
+          "kind": "domain",
+          "column": "Sex",
+          "flagged": 126,
+          "rate": 0.0104,
+          "true_positive": 126,
+          "false_positive": 0,
+          "false_negative": 1056,
+          "precision": 1.0,
+          "recall": 0.1066,
+          "f1": 0.1927
+        },
+        {
+          "rule": "DQ3",
+          "kind": "domain",
+          "column": "Income",
+          "flagged": 100,
+          "rate": 0.0083,
+          "true_positive": 100,
+          "false_positive": 0,
+          "false_negative": 1082,
+          "precision": 1.0,
+          "recall": 0.0846,
+          "f1": 0.156
+        }
+      ],
+      "union_detection": {
+        "flagged": 226,
+        "true_positive": 226,
+        "false_positive": 0,
+        "false_negative": 956,
+        "precision": 1.0,
+        "recall": 0.1912,
+        "f1": 0.321
+      },
+      "edqsg": {
+        "status": "evidence_insufficient",
+        "reason": "数据质量域全部指标因证据不足或冲突复核被排除，按模型规则不出具总体等级，请补充证据后重新评价。",
+        "excluded_indicators": [
+          "DQ1",
+          "DQ3"
+        ],
+        "review_indicators": [
+          "DQ1",
+          "DQ3"
+        ],
+        "indicator_results": [
+          {
+            "indicator_id": "DQ1",
+            "score": 100.0,
+            "confidence": 0.285,
+            "unknown": 0.715,
+            "review_state": "insufficient_evidence"
+          },
+          {
+            "indicator_id": "DQ3",
+            "score": 98.96,
+            "confidence": 0.285,
+            "unknown": 0.715,
+            "review_state": "insufficient_evidence"
+          },
+          {
+            "indicator_id": "SG3",
+            "score": 100.0,
+            "confidence": 0.95,
+            "unknown": 0.05,
+            "review_state": "none"
+          },
+          {
+            "indicator_id": "SG7",
+            "score": 100.0,
+            "confidence": 0.95,
+            "unknown": 0.05,
+            "review_state": "none"
+          }
+        ]
+      },
+      "baseline": {
+        "weighted_average_score": 99.74,
+        "grade": "优",
+        "score_diff": null
+      },
+      "ablation_unknown_decoupled": null,
+      "ablation_no_bottom_line": null,
+      "sensitivity": null,
+      "robustness": null,
+      "contamination": null,
+      "block_correlation": {},
+      "blocks": [
+        {
+          "block": 1,
+          "rows": 110,
+          "truth_defect_rate": 0.1041,
+          "edqsg_score": null,
+          "edqsg_grade": "证据不足",
+          "weighted_average_score": 99.71,
+          "evidence_coverage": 0.0
+        },
+        {
+          "block": 2,
+          "rows": 110,
+          "truth_defect_rate": 0.086,
+          "edqsg_score": null,
+          "edqsg_grade": "证据不足",
+          "weighted_average_score": 99.63,
+          "evidence_coverage": 0.0
+        },
+        {
+          "block": 3,
+          "rows": 110,
+          "truth_defect_rate": 0.1165,
+          "edqsg_score": null,
+          "edqsg_grade": "证据不足",
+          "weighted_average_score": 99.67,
+          "evidence_coverage": 0.0
+        },
+        {
+          "block": 4,
+          "rows": 110,
+          "truth_defect_rate": 0.1033,
+          "edqsg_score": null,
+          "edqsg_grade": "证据不足",
+          "weighted_average_score": 99.61,
+          "evidence_coverage": 0.0
+        },
+        {
+          "block": 5,
+          "rows": 110,
+          "truth_defect_rate": 0.0876,
+          "edqsg_score": null,
+          "edqsg_grade": "证据不足",
+          "weighted_average_score": 99.83,
+          "evidence_coverage": 0.0
+        },
+        {
+          "block": 6,
+          "rows": 110,
+          "truth_defect_rate": 0.095,
+          "edqsg_score": null,
+          "edqsg_grade": "证据不足",
+          "weighted_average_score": 99.79,
+          "evidence_coverage": 0.0
+        },
+        {
+          "block": 7,
+          "rows": 110,
+          "truth_defect_rate": 0.0893,
+          "edqsg_score": null,
+          "edqsg_grade": "证据不足",
+          "weighted_average_score": 99.71,
+          "evidence_coverage": 0.0
+        },
+        {
+          "block": 8,
+          "rows": 110,
+          "truth_defect_rate": 0.0893,
+          "edqsg_score": null,
+          "edqsg_grade": "证据不足",
+          "weighted_average_score": 99.79,
+          "evidence_coverage": 0.0
+        },
+        {
+          "block": 9,
+          "rows": 110,
+          "truth_defect_rate": 0.114,
+          "edqsg_score": null,
+          "edqsg_grade": "证据不足",
+          "weighted_average_score": 99.77,
+          "evidence_coverage": 0.0
+        },
+        {
+          "block": 10,
+          "rows": 110,
+          "truth_defect_rate": 0.0917,
+          "edqsg_score": null,
+          "edqsg_grade": "证据不足",
+          "weighted_average_score": 99.73,
+          "evidence_coverage": 0.0
+        }
+      ]
+    },
+    {
+      "dataset": "flight",
+      "dirty_file": "flight.csv",
+      "clean_file": "flight_clean.csv",
+      "rows": 57246,
+      "columns": 6,
+      "monitored_cells": 343476,
+      "truth": {
+        "total_defects": 298337,
+        "by_type": {
+          "missing": 116372,
+          "wrong_value": 181958,
+          "extra_value": 7
+        },
+        "defect_rate": 0.8686
+      },
+      "rule_observability": {
+        "DQ1": 0.6,
+        "DQ2": 0.6
+      },
+      "detectors": [
+        {
+          "rule": "DQ1",
+          "kind": "missing",
+          "column": "",
+          "flagged": 116389,
+          "rate": 0.3389,
+          "true_positive": 116372,
+          "false_positive": 17,
+          "false_negative": 181965,
+          "precision": 0.9999,
+          "recall": 0.3901,
+          "f1": 0.5612
+        },
+        {
+          "rule": "DQ2",
+          "kind": "conflict",
+          "column": "flight",
+          "flagged": 125711,
+          "rate": 0.366,
+          "true_positive": 116644,
+          "false_positive": 9067,
+          "false_negative": 181693,
+          "precision": 0.9279,
+          "recall": 0.391,
+          "f1": 0.5501
+        }
+      ],
+      "union_detection": {
+        "flagged": 242100,
+        "true_positive": 233016,
+        "false_positive": 9084,
+        "false_negative": 65321,
+        "precision": 0.9625,
+        "recall": 0.781,
+        "f1": 0.8623
+      },
+      "edqsg": {
+        "status": "evaluated",
+        "dq_score": 64.76,
+        "dq_confidence": 0.57,
+        "sg_score": 70.0,
+        "sg_confidence": 0.95,
+        "initial_score": 67.33,
+        "final_score": 60.0,
+        "grade": "较差",
+        "evidence_coverage": 1.0,
+        "excluded_indicators": [],
+        "review_indicators": [
+          "DQ1",
+          "DQ2"
+        ],
+        "bottom_line_triggers": [
+          "BL-FLIGHT-MISSING"
+        ],
+        "root_causes": [],
+        "indicator_results": [
+          {
+            "indicator_id": "DQ1",
+            "score": 66.11,
+            "confidence": 0.57,
+            "unknown": 0.43,
+            "review_state": "insufficient_evidence"
+          },
+          {
+            "indicator_id": "DQ2",
+            "score": 63.4,
+            "confidence": 0.57,
+            "unknown": 0.43,
+            "review_state": "insufficient_evidence"
+          },
+          {
+            "indicator_id": "SG3",
+            "score": 100.0,
+            "confidence": 0.95,
+            "unknown": 0.05,
+            "review_state": "none"
+          },
+          {
+            "indicator_id": "SG7",
+            "score": 40.0,
+            "confidence": 0.95,
+            "unknown": 0.05,
+            "review_state": "none"
+          }
+        ]
+      },
+      "baseline": {
+        "weighted_average_score": 67.33,
+        "grade": "中",
+        "score_diff": -7.33
+      },
+      "ablation_unknown_decoupled": {
+        "score": 49.54,
+        "grade": "较差",
+        "score_diff": 10.46
+      },
+      "ablation_no_bottom_line": {
+        "final_score": 67.33,
+        "grade": "中",
+        "score_diff": -7.33
+      },
+      "sensitivity": {
+        "max_abs_score_change": 6.0,
+        "grade_flip_rate": 0.0417,
+        "min_root_top_k_overlap": 1.0,
+        "cases": 24
+      },
+      "robustness": {
+        "policy_inclusive": {
+          "iterations": 300,
+          "perturbation": 0.1,
+          "baseline_score": 60.0,
+          "score_mean": 60.04,
+          "score_std": 3.44,
+          "score_q05": 54.72,
+          "score_q50": 60.35,
+          "score_q95": 65.41,
+          "grade_flip_rate": 0.5333
+        },
+        "model_only": {
+          "iterations": 300,
+          "perturbation": 0.1,
+          "baseline_score": 60.0,
+          "score_mean": 60.0,
+          "score_std": 0.0,
+          "score_q05": 60.0,
+          "score_q50": 60.0,
+          "score_q95": 60.0,
+          "grade_flip_rate": 0.0
+        }
+      },
+      "contamination": {
+        "dataset": "flight",
+        "levels": [
+          {
+            "level": 0.0,
+            "score": 83.66454112363387,
+            "grade": "良"
+          },
+          {
+            "level": 0.05,
+            "score": 82.61206572553506,
+            "grade": "良"
+          },
+          {
+            "level": 0.1,
+            "score": 81.54613262033342,
+            "grade": "良"
+          },
+          {
+            "level": 0.2,
+            "score": 79.3714609226752,
+            "grade": "良"
+          },
+          {
+            "level": 0.3,
+            "score": 60.0,
+            "grade": "较差"
+          },
+          {
+            "level": 0.4,
+            "score": 60.0,
+            "grade": "较差"
+          },
+          {
+            "level": 0.6,
+            "score": 60.0,
+            "grade": "较差"
+          }
+        ],
+        "spearman": -0.9636,
+        "bootstrap_95ci": [
+          -1.0,
+          -0.7638
+        ]
+      },
+      "block_correlation": {
+        "spearman_truth_vs_wavg": 0.0612
+      },
+      "blocks": [
+        {
+          "block": 1,
+          "rows": 5726,
+          "truth_defect_rate": 0.8675,
+          "edqsg_score": 60.0,
+          "edqsg_grade": "较差",
+          "weighted_average_score": 67.35,
+          "evidence_coverage": 1.0
+        },
+        {
+          "block": 2,
+          "rows": 5735,
+          "truth_defect_rate": 0.8671,
+          "edqsg_score": 60.0,
+          "edqsg_grade": "较差",
+          "weighted_average_score": 67.19,
+          "evidence_coverage": 1.0
+        },
+        {
+          "block": 3,
+          "rows": 5743,
+          "truth_defect_rate": 0.8693,
+          "edqsg_score": 60.0,
+          "edqsg_grade": "较差",
+          "weighted_average_score": 67.4,
+          "evidence_coverage": 1.0
+        },
+        {
+          "block": 4,
+          "rows": 5737,
+          "truth_defect_rate": 0.87,
+          "edqsg_score": 60.0,
+          "edqsg_grade": "较差",
+          "weighted_average_score": 67.29,
+          "evidence_coverage": 1.0
+        },
+        {
+          "block": 5,
+          "rows": 5733,
+          "truth_defect_rate": 0.8656,
+          "edqsg_score": 60.0,
+          "edqsg_grade": "较差",
+          "weighted_average_score": 67.34,
+          "evidence_coverage": 1.0
+        },
+        {
+          "block": 6,
+          "rows": 5758,
+          "truth_defect_rate": 0.8684,
+          "edqsg_score": 60.0,
+          "edqsg_grade": "较差",
+          "weighted_average_score": 67.31,
+          "evidence_coverage": 1.0
+        },
+        {
+          "block": 7,
+          "rows": 5736,
+          "truth_defect_rate": 0.8682,
+          "edqsg_score": 60.0,
+          "edqsg_grade": "较差",
+          "weighted_average_score": 67.35,
+          "evidence_coverage": 1.0
+        },
+        {
+          "block": 8,
+          "rows": 5737,
+          "truth_defect_rate": 0.8682,
+          "edqsg_score": 60.0,
+          "edqsg_grade": "较差",
+          "weighted_average_score": 67.32,
+          "evidence_coverage": 1.0
+        },
+        {
+          "block": 9,
+          "rows": 5733,
+          "truth_defect_rate": 0.8689,
+          "edqsg_score": 60.0,
+          "edqsg_grade": "较差",
+          "weighted_average_score": 67.41,
+          "evidence_coverage": 1.0
+        },
+        {
+          "block": 10,
+          "rows": 5608,
+          "truth_defect_rate": 0.8726,
+          "edqsg_score": 60.0,
+          "edqsg_grade": "较差",
+          "weighted_average_score": 67.32,
+          "evidence_coverage": 1.0
+        }
+      ]
+    }
+  ],
+  "pooled_correlation": {
+    "spearman_truth_vs_edqsg": -0.8715,
+    "spearman_truth_vs_wavg": -0.8078
+  }
+}

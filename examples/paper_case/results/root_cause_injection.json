@@ -1,0 +1,211 @@
+{
+  "scenarios": [
+    {
+      "scenario": "S0_clean",
+      "injected": "clean",
+      "expected_sg": [],
+      "top1": null,
+      "top3": [],
+      "rank_of_expected": null,
+      "mrr": 0.0,
+      "hit_top1": 0,
+      "hit_top3": 0,
+      "root_causes": []
+    },
+    {
+      "scenario": "S1_orphan",
+      "injected": "orphan",
+      "expected_sg": [
+        "SG3"
+      ],
+      "top1": "SG3",
+      "top3": [
+        "SG3"
+      ],
+      "rank_of_expected": 1,
+      "mrr": 1.0,
+      "hit_top1": 1,
+      "hit_top3": 1,
+      "root_causes": [
+        {
+          "sg": "SG3",
+          "rc": 0.0008
+        }
+      ]
+    },
+    {
+      "scenario": "S2_master_conflict",
+      "injected": "master_conflict",
+      "expected_sg": [
+        "SG7"
+      ],
+      "top1": "SG7",
+      "top3": [
+        "SG7"
+      ],
+      "rank_of_expected": 1,
+      "mrr": 1.0,
+      "hit_top1": 1,
+      "hit_top3": 1,
+      "root_causes": [
+        {
+          "sg": "SG7",
+          "rc": 0.00052
+        }
+      ]
+    },
+    {
+      "scenario": "S3_duplicate",
+      "injected": "duplicate",
+      "expected_sg": [
+        "SG3"
+      ],
+      "top1": "SG3",
+      "top3": [
+        "SG3"
+      ],
+      "rank_of_expected": 1,
+      "mrr": 1.0,
+      "hit_top1": 1,
+      "hit_top3": 1,
+      "root_causes": [
+        {
+          "sg": "SG3",
+          "rc": 0.00043
+        }
+      ]
+    },
+    {
+      "scenario": "S4_missing",
+      "injected": "missing",
+      "expected_sg": [
+        "SG3"
+      ],
+      "top1": "SG3",
+      "top3": [
+        "SG3"
+      ],
+      "rank_of_expected": 1,
+      "mrr": 1.0,
+      "hit_top1": 1,
+      "hit_top3": 1,
+      "root_causes": [
+        {
+          "sg": "SG3",
+          "rc": 0.00038
+        }
+      ]
+    },
+    {
+      "scenario": "S5_stale",
+      "injected": "stale",
+      "expected_sg": [
+        "SG8"
+      ],
+      "top1": "SG8",
+      "top3": [
+        "SG8"
+      ],
+      "rank_of_expected": 1,
+      "mrr": 1.0,
+      "hit_top1": 1,
+      "hit_top3": 1,
+      "root_causes": [
+        {
+          "sg": "SG8",
+          "rc": 0.00131
+        }
+      ]
+    },
+    {
+      "scenario": "S6_audit_missing",
+      "injected": "audit_missing",
+      "expected_sg": [
+        "SG8"
+      ],
+      "top1": "SG8",
+      "top3": [
+        "SG8"
+      ],
+      "rank_of_expected": 1,
+      "mrr": 1.0,
+      "hit_top1": 1,
+      "hit_top3": 1,
+      "root_causes": [
+        {
+          "sg": "SG8",
+          "rc": 0.00131
+        }
+      ]
+    },
+    {
+      "scenario": "S7_authority_conflict",
+      "injected": "authority_conflict",
+      "expected_sg": [
+        "SG7"
+      ],
+      "top1": "SG7",
+      "top3": [
+        "SG7"
+      ],
+      "rank_of_expected": 1,
+      "mrr": 1.0,
+      "hit_top1": 1,
+      "hit_top3": 1,
+      "root_causes": [
+        {
+          "sg": "SG7",
+          "rc": 0.00031
+        }
+      ]
+    },
+    {
+      "scenario": "S8_domain_violation",
+      "injected": "domain_violation",
+      "expected_sg": [
+        "SG3"
+      ],
+      "top1": "SG3",
+      "top3": [
+        "SG3"
+      ],
+      "rank_of_expected": 1,
+      "mrr": 1.0,
+      "hit_top1": 1,
+      "hit_top3": 1,
+      "root_causes": [
+        {
+          "sg": "SG3",
+          "rc": 0.00038
+        }
+      ]
+    },
+    {
+      "scenario": "S9_combined",
+      "injected": "combined",
+      "expected_sg": [
+        "SG3",
+        "SG7"
+      ],
+      "top1": "SG7",
+      "top3": [
+        "SG7"
+      ],
+      "rank_of_expected": 1,
+      "mrr": 1.0,
+      "hit_top1": 1,
+      "hit_top3": 1,
+      "root_causes": [
+        {
+          "sg": "SG7",
+          "rc": 0.00052
+        }
+      ]
+    }
+  ],
+  "top1_accuracy": 1.0,
+  "top3_hit_rate": 1.0,
+  "mean_reciprocal_rank": 1.0,
+  "clean_false_positive_rate": 0.0,
+  "denominator_note": "Top-1/Top-3/MRR 分母为 9 个含已知根因的注入场景（S1~S9），S0 干净基线单独报告"
+}

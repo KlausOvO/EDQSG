@@ -1,0 +1,468 @@
+database:
+  server: localhost
+  port: 1433
+  database: AeroMRO_EDQSG
+  authentication: sql
+  username: edqsg_reader
+  password_env: EDQSG_DB_PASSWORD
+  driver: ODBC Driver 18 for SQL Server
+  encrypt: true
+  trust_server_certificate: true
+scan:
+  schemas:
+  - aero
+  - dq
+  exclude_tables:
+  - quality_issue
+  - quality_run
+  - benchmark_defect_label
+  - relationship_control_registry
+  profile_mode: full
+  sample_rows: 10000
+  detect_field_redundancy: true
+  detect_table_redundancy: true
+  max_redundancy_pairs: 500
+rules:
+  critical_tables:
+  - aero.part_master
+  - aero.part_instance
+  - aero.inventory_transaction
+  - aero.receipt_line
+  - aero.install_remove_event
+  required_columns:
+  - table: aero.part_master
+    column: part_number
+    description: 器材件号必填
+    bottom_line: true
+  - table: aero.part_master
+    column: part_name
+    description: 器材名称必填
+  - table: aero.receipt
+    column: received_by
+    description: 收货责任人必填
+  - table: aero.receipt_line
+    column: certificate_no_received
+    condition_sql: certificate_required_flag = 1
+    description: 要求证书的收货行必须记录证书号
+    bottom_line: true
+  - table: aero.inventory_transaction
+    column: operator_id
+    description: 库存事务操作人必填
+    bottom_line: true
+  business_keys:
+  - table: aero.part_master
+    columns:
+    - part_number
+    description: 件号唯一
+    bottom_line_threshold: 0.0
+  - table: aero.aircraft
+    columns:
+    - registration_no
+    description: 航空器注册号唯一
+    bottom_line_threshold: 0.0
+  - table: aero.part_instance
+    columns:
+    - part_id
+    - serial_number
+    description: 同一件号下序列号唯一
+    bottom_line_threshold: 0.0
+  - table: aero.receipt_line
+    columns:
+    - certificate_no_received
+    description: 收货证书业务编号不得重复
+    bottom_line_threshold: 0.01
+  freshness_rules:
+  - table: aero.part_master
+    column: updated_at
+    max_age_days: 365
+    description: 在用器材主数据一年内应复核或更新
+  - table: aero.supplier
+    column: updated_at
+    max_age_days: 365
+    description: 供应商主数据一年内应复核或更新
+  - table: aero.inventory_balance
+    column: balance_updated_at
+    max_age_days: 30
+    description: 库存余额应保持近期更新
+  domain_rules:
+  - table: aero.manufacturer
+    column: country_code
+    allowed_values:
+    - CN
+    - US
+    - FR
+    - DE
+    - GB
+    - CA
+    description: 制造商国家代码
+  - table: aero.part_master
+    column: active_status
+    allowed_values:
+    - ACTIVE
+    - OBSOLETE
+    - RESTRICTED
+  - table: aero.part_instance
+    column: condition_status
+    allowed_values:
+    - SERVICEABLE
+    - UNSERVICEABLE
+    - QUARANTINE
+    - INSTALLED
+    - REPAIR
+    - SCRAPPED
+  - table: aero.inventory_transaction
+    column: transaction_type
+    allowed_values:
+    - RECEIPT
+    - ISSUE
+    - TRANSFER
+    - INSTALL
+    - REMOVE
+    - FREEZE
+    - UNFREEZE
+    - SCRAP
+    - ADJUST
+  - table: aero.receipt
+    column: receipt_status
+    allowed_values:
+    - RECEIVED
+    - INSPECTION
+    - ACCEPTED
+    - REJECTED
+  custom_sql_rules:
+  - rule_id: DQ2-INSTANCE-DATE
+    indicator_id: DQ2
+    table: aero.part_instance
+    invalid_condition_sql: expiry_date IS NOT NULL AND production_date IS NOT NULL AND expiry_date < production_date
+    description: 失效日期不得早于生产日期
+    bottom_line_cap: 50
+  - rule_id: DQ2-BALANCE-INSTANCE
+    indicator_id: DQ2
+    table: aero.inventory_balance
+    invalid_condition_sql: available_quantity < 0 OR frozen_quantity < 0
+    description: 库存数量不得为负
+    bottom_line_cap: 50
+  - rule_id: DQ3-SERIAL-OR-BATCH
+    indicator_id: DQ3
+    table: aero.part_instance
+    invalid_condition_sql: serial_number IS NULL AND batch_number IS NULL
+    description: 器材实例必须具有序列号或批次号
+  - rule_id: DQ5-TRANSFER-LOCATION
+    indicator_id: DQ5
+    table: aero.inventory_transaction
+    invalid_condition_sql: transaction_type = 'TRANSFER' AND source_location_id = target_location_id
+    description: 调拨来源库位和目标库位不得相同
+  - rule_id: DQ8-REFERENCE
+    indicator_id: DQ8
+    table: aero.inventory_transaction
+    invalid_condition_sql: reference_type IS NULL OR reference_id IS NULL OR operator_id IS NULL
+    description: 库存事务来源单据和操作人必须可追溯
+    bottom_line_cap: 50
+  table_model_rules:
+  - table: aero.part_master
+    grain_columns:
+    - part_id
+    max_columns: 25
+    allow_heap: false
+    require_description: true
+    forbidden_multivalue_columns:
+    - applicable_type_codes
+  - table: aero.part_instance
+    grain_columns:
+    - part_instance_id
+    max_columns: 25
+    allow_heap: false
+    require_description: true
+  - table: aero.inventory_transaction
+    grain_columns:
+    - inventory_transaction_id
+    max_columns: 25
+    allow_heap: false
+    require_description: true
+  - table: aero.purchase_order
+    grain_columns:
+    - purchase_order_id
+    max_columns: 20
+    allow_heap: false
+    require_description: true
+  - table: aero.purchase_order_line
+    grain_columns:
+    - purchase_order_line_id
+    max_columns: 20
+    allow_heap: false
+    require_description: true
+  - table: aero.receipt
+    grain_columns:
+    - receipt_id
+    max_columns: 20
+    allow_heap: false
+    require_description: true
+  - table: aero.receipt_line
+    grain_columns:
+    - receipt_line_id
+    max_columns: 20
+    allow_heap: false
+    require_description: true
+  - table: aero.install_remove_event
+    grain_columns:
+    - install_remove_event_id
+    max_columns: 20
+    allow_heap: false
+    require_description: true
+  master_data_groups:
+  - entity_name: 器材主数据
+    authoritative_table: aero.part_master
+    related_tables:
+    - aero.part_instance
+    - aero.inventory_transaction
+    - aero.purchase_order_line
+  - entity_name: 供应商主数据
+    authoritative_table: aero.supplier
+    related_tables:
+    - aero.purchase_order
+    - aero.repair_order
+  master_data_consistency_rules:
+  - rule_id: MD-PART-TX-SNAPSHOT
+    entity_name: 器材主数据
+    authoritative_table: aero.part_master
+    related_table: aero.inventory_transaction
+    key_pairs:
+    - - part_id
+      - part_id
+    attribute_pairs:
+    - - part_number
+      - part_number_snapshot
+    - - part_name
+      - part_name_snapshot
+    description: 库存事务器材快照与权威主数据一致性
+    bottom_line_threshold: 0.01
+  lifecycle_control_rules:
+  - table: aero.part_master
+    required_audit_columns:
+    - created_at
+    - created_by
+    - updated_at
+    - updated_by
+    - row_version
+    interoperability_columns:
+    - part_number
+    - ata_code
+    - unit_code
+    require_temporal: false
+    require_description: true
+  - table: aero.part_instance
+    required_audit_columns:
+    - created_at
+    - created_by
+    - updated_at
+    - updated_by
+    - row_version
+    interoperability_columns:
+    - part_id
+    - serial_number
+    - batch_number
+    - condition_status
+    require_temporal: false
+    require_description: true
+  - table: aero.inventory_transaction
+    required_audit_columns:
+    - created_at
+    - created_by
+    - operator_id
+    interoperability_columns:
+    - transaction_type
+    - reference_type
+    - reference_id
+    - part_number_snapshot
+    require_temporal: false
+    require_description: true
+  - table: aero.warehouse
+    required_audit_columns:
+    - created_at
+    - created_by
+    - updated_at
+    - updated_by
+    interoperability_columns:
+    - warehouse_code
+    - organization_code
+    require_temporal: false
+    require_description: true
+  supplemental_evidence:
+  - evidence_id: PROC-DQ7-SYNC-JOB
+    indicator_id: DQ7
+    evidence_type: process
+    source: 航材主数据同步作业日志
+    coverage: 0.95
+    authority: 0.9
+    timeliness: 0.95
+    repeatability: 0.95
+    business_fit: 1.0
+    observed_score: 92
+    unknown_degree: 0.03
+    description: 基准情景中同步作业按日运行且成功率稳定
+    basis: synthetic-process-baseline
+  - evidence_id: PROC-SG8-CHANGE-CONTROL
+    indicator_id: SG8
+    evidence_type: process
+    source: 数据库结构变更审批记录
+    coverage: 0.85
+    authority: 0.92
+    timeliness: 0.9
+    repeatability: 0.88
+    business_fit: 1.0
+    observed_score: 85
+    unknown_degree: 0.08
+    description: 基准结构变更具有版本、审批和回退记录
+    basis: synthetic-process-baseline
+  - evidence_id: EXP-SG2-MODEL-REVIEW
+    indicator_id: SG2
+    evidence_type: expert
+    source: 航材业务与数据架构联合评审组
+    coverage: 0.9
+    authority: 0.95
+    timeliness: 0.9
+    repeatability: 0.82
+    business_fit: 1.0
+    belief_degrees:
+    - 0.2
+    - 0.6
+    - 0.15
+    - 0.02
+    - 0.0
+    unknown_degree: 0.03
+    description: 专家确认核心表职责和记录粒度清晰
+    basis: synthetic-expert-baseline
+  - evidence_id: EXP-SG7-MASTER-REVIEW
+    indicator_id: SG7
+    evidence_type: expert
+    source: 主数据治理专家组
+    coverage: 0.85
+    authority: 0.95
+    timeliness: 0.9
+    repeatability: 0.8
+    business_fit: 1.0
+    belief_degrees:
+    - 0.25
+    - 0.55
+    - 0.15
+    - 0.02
+    - 0.0
+    unknown_degree: 0.03
+    description: 专家确认器材和供应商权威来源
+    basis: synthetic-expert-baseline
+  relationship_controls:
+  - relationship_id: REL-TX-RECEIPT
+    child_table: aero.inventory_transaction
+    child_columns:
+    - reference_id
+    parent_table: aero.receipt
+    parent_columns:
+    - receipt_id
+    description: 当前基准中的库存事务来源均为收货单，生产系统可扩展为多态来源关系
+    cardinality: many_to_one
+    child_nullable: false
+    delete_policy: restrict_in_application
+    update_policy: immutable_identifier
+    owner: 航材库存与接口联合责任组
+    criticality: high
+    physical_fk_required: false
+    enforcement_modes:
+    - application_validation
+    - scheduled_audit
+    control_coverage: 0.98
+    control_reliability: 0.95
+    operating_effectiveness: 0.98
+    exception_approved: true
+    exception_reason: reference_type与reference_id构成多态来源，无法使用单一物理外键
+    performance_evidence_id: ARCH-REL-001
+    review_due_date: '2027-07-01'
+    audit_frequency_hours: 1
+    maximum_orphan_rate: 0.0
+    minimum_control_score: 0.75
+    bottom_line_cap: 50
+  - relationship_id: REL-TX-PART
+    child_table: aero.inventory_transaction
+    child_columns:
+    - part_id
+    parent_table: aero.part_master
+    parent_columns:
+    - part_id
+    description: 库存事务中的器材标识必须引用权威器材主数据
+    cardinality: many_to_one
+    child_nullable: false
+    delete_policy: restrict
+    update_policy: no_action
+    owner: 航材库存系统组
+    criticality: critical
+    physical_fk_required: false
+    enforcement_modes:
+    - documentation_only
+    control_coverage: 0.5
+    control_reliability: 0.5
+    operating_effectiveness: 0.5
+    exception_approved: false
+    exception_reason: ''
+    performance_evidence_id: ''
+    review_due_date: ''
+    audit_frequency_hours: null
+    maximum_orphan_rate: 0.0
+    minimum_control_score: 0.75
+    bottom_line_cap: 50
+  - relationship_id: REL-RECEIPT-INSTANCE
+    child_table: aero.receipt_line
+    child_columns:
+    - part_instance_id
+    parent_table: aero.part_instance
+    parent_columns:
+    - part_instance_id
+    description: 收货行必须能够追溯到唯一器材实例
+    cardinality: many_to_one
+    child_nullable: false
+    delete_policy: restrict
+    update_policy: no_action
+    owner: 航材收货与质量检验组
+    criticality: critical
+    physical_fk_required: false
+    enforcement_modes:
+    - scheduled_audit
+    control_coverage: 1.0
+    control_reliability: 0.99
+    operating_effectiveness: 0.99
+    exception_approved: false
+    exception_reason: ''
+    performance_evidence_id: ''
+    review_due_date: ''
+    audit_frequency_hours: 24
+    maximum_orphan_rate: 0.0
+    minimum_control_score: 0.75
+    bottom_line_cap: 50
+dq_weights:
+  DQ1: 0.14
+  DQ2: 0.14
+  DQ3: 0.1
+  DQ4: 0.14
+  DQ5: 0.13
+  DQ6: 0.14
+  DQ7: 0.09
+  DQ8: 0.12
+sg_weights:
+  SG1: 0.12
+  SG2: 0.14
+  SG3: 0.16
+  SG4: 0.14
+  SG5: 0.1
+  SG6: 0.1
+  SG7: 0.13
+  SG8: 0.11
+visualization:
+  enabled: true
+  formats:
+  - png
+  - svg
+  dpi: 300
+  top_n: 15
+  generate_dashboard: true
+  generate_robustness: true
+  robustness_iterations: 500
+  robustness_perturbation: 0.1
+output_dir: output/aeromro
