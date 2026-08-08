@@ -71,7 +71,7 @@ edqsg_project/
 └── docs/                         # 模型、SQL Server、可视化和实现说明
 ```
 
-## 公开基准与论文验证
+## 公开基准与实验验证
 
 模型通用机制使用 HoloClean 公开基准（hospital / flight / adult）与受控实验验证，
 装备语义由构造算例实例化，具体见论文第 7、8 节：
