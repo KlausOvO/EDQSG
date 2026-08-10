@@ -13,7 +13,7 @@
 | adult_dirty0.1.csv | danielvandijke/HoloClean testdata | 1 100 | UCI Adult 的 10% 单元级损坏版 |
 | adult_clean.csv | danielvandijke/HoloClean testdata | 12 122 | 与 dirty 对齐的单元级真值 |
 
-原计划中的 yelp 数据集无公开镜像（HoloClean 论文所用 yelp 未随仓库发布），
+原计划中的 yelp 数据集无公开镜像（HoloClean 基准所用 yelp 未随仓库发布），
 以 adult 的 dirty/clean 对齐版替代，其结构（dirty 表 + 单元级真值文件）与 hospital/flight 一致。
 
 ## 内容校验
@@ -40,7 +40,7 @@ python benchmark/public/download_holoclean.py
 python -c "import sys; sys.path.insert(0, 'src'); import runpy; runpy.run_path('benchmark/public/benchmark.py', run_name='__main__')"
 ```
 
-## 实验口径（与论文第 7 节一致）
+## 实验口径
 
 - 真值采用 `(tid, attribute, correct_val)` 单元级文件；flight 同一航班有多个来源行，
   评估按行实例计，任一来源值与权威真值不一致即记为缺陷。

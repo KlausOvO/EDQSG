@@ -5,7 +5,7 @@
   - hospital.csv / hospital_clean.csv   : HoloClean/holoclean testdata，重复记录检测基准
   - flight.csv  / flight_clean.csv      : HoloClean/holoclean testdata，约束/字段缺陷基准
   - adult_dirty0.1.csv / adult_clean.csv: danielvandijke/HoloClean testdata，10%单元级错误对齐版
-原计划中的 yelp 无公开镜像（HoloClean 论文所用 yelp 未随仓库发布），以 adult 对齐版替代。
+原计划中的 yelp 无公开镜像（HoloClean 基准所用 yelp 未随仓库发布），以 adult 对齐版替代。
 """
 
 import hashlib

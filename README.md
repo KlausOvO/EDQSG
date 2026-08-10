@@ -68,28 +68,7 @@ edqsg_project/
 │       └── run_sqlserver_assessment.py
 ├── CORE_CODE_INDEX.md            # 核心代码文件与调用链索引
 ├── tests/                        # EDQSG内核、SQL Server与可视化测试
-└── docs/                         # 模型、SQL Server、可视化和实现说明
-```
-
-## 公开基准与实验验证
-
-模型通用机制使用 HoloClean 公开基准（hospital / flight / adult）与受控实验验证，
-装备语义由构造算例实例化，具体见论文第 7、8 节：
-
-- 公开基准下载（约 7.5 MB，含 SHA-256 校验清单）：`benchmark/public/download_holoclean.py`
-- 双表验证（检测 P/R/F1、规则可观测度 C_rule 标定、污染率控制实验、
-  双口径蒙特卡洛敏感性）：`benchmark/public/benchmark.py` → `benchmark/public/results/`
-- 装备场景算例与消融（Q=82.3、S=71.7 等）：`examples/paper_case/run_paper_case.py`
-- 受控根因注入实验（Top-1/Top-3/MRR）：`examples/paper_case/root_cause_injection.py`
-
-运行方式（嵌入式 Python 需将 `src` 加入 `sys.path`）：
-
-```bash
-python benchmark/public/download_holoclean.py
-python -c "import sys; sys.path.insert(0, 'src'); import runpy; \
-runpy.run_path('benchmark/public/benchmark.py', run_name='__main__')"
-python -c "import sys; sys.path.insert(0, 'src'); import runpy; \
-runpy.run_path('examples/paper_case/root_cause_injection.py', run_name='__main__')"
+└── docs/                         # SQL Server、可视化和实现说明
 ```
 
 ## U1.2 航空器材验证基准快速入口

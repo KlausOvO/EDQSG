@@ -12,6 +12,12 @@ benchmark/public/data/
 # 离线评测生成的输出（可重新生成）
 examples/csv/output/
 examples/csv/output_paper/
+benchmark/public/results/
+examples/paper_case/results/
+
+# 论文相关本地产物（不随仓库分发）
+docs/figures/
+docs/model/
 
 # IDE / 系统
 .vscode/

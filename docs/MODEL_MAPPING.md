@@ -27,7 +27,7 @@
 | 单元区间校验浮点容差 | `validators.validate_unit_interval` |
 | 公开基准数据下载（HoloClean） | `benchmark/public/download_holoclean.py` |
 | 公开基准双表验证（P/R/F1、块级相关、敏感性） | `benchmark/public/benchmark.py` |
-| 装备场景论文算例与消融（Q=82.3/S=71.7 等） | `examples/paper_case/run_paper_case.py` |
+| 装备场景算例与消融（Q=82.3/S=71.7 等） | `examples/paper_case/run_paper_case.py` |
 | 规则可观测度 C_rule 与初始未知度 β_U^0 = 1 − C_sample·C_rule | `Evidence.rule_observability`、`EvidenceFusionEngine._raw_distribution` |
 | 样本覆盖度 C_sample（与证据完整性 C_e 分离） | `Evidence.sample_coverage` |
 | C_rule 标定（70% 子集召回率分档） | `benchmark/public/benchmark.py: calibrate_rule_observability` |
