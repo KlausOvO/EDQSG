@@ -1,6 +1,10 @@
 """EDQSG：证据驱动的数据质量—结构治理评价模型。"""
 
 from .config import EDQSGConfig
+from .admission import (
+    CriticalRuleRequirement, FormalAdmissionPolicy,
+    FormalAdmissionDecision, AdmissionIssue,
+)
 from .core import EDQSGModel
 from .coupling import CouplingCalibrator
 from .models import (
@@ -38,6 +42,10 @@ from .sqlserver import (
 
 __all__ = [
     "EDQSGConfig",
+    "CriticalRuleRequirement",
+    "FormalAdmissionPolicy",
+    "FormalAdmissionDecision",
+    "AdmissionIssue",
     "EDQSGModel",
     "CouplingCalibrator",
     "RedundancyAnalyzer",

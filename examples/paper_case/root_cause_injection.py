@@ -9,6 +9,8 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from datetime import date
+import argparse
 
 from edqsg import CouplingCalibrationInput, EDQSGConfig, EDQSGModel
 from edqsg.csvsource.profiler import build_indicators
@@ -126,7 +128,7 @@ def ranked_roots(report):
     ]
 
 
-def run_all() -> dict:
+def run_all(reference_date: date | None = None) -> dict:
     import json as _json
 
     base_config = _json.loads(CONFIG.read_text(encoding="utf-8"))
@@ -139,7 +141,7 @@ def run_all() -> dict:
     results = []
     for name, (scenario, expected) in SCENARIOS.items():
         tables = inject(scenario)
-        indicators, metrics = build_indicators(base_config, tables)
+        indicators, metrics = build_indicators(base_config, tables, reference_date=reference_date)
         dq_ids = [item.indicator_id for item in indicators if item.domain.value == "DQ"]
         sg_ids = [item.indicator_id for item in indicators if item.domain.value == "SG"]
         dq_w = {item: 1.0 / len(dq_ids) for item in dq_ids}
@@ -190,6 +192,7 @@ def run_all() -> dict:
     mrr_mean = sum(r["mrr"] for r in injected) / n
     clean_false_positive = sum(1 for r in clean if r["top1"] is not None) / len(clean)
     return {
+        "reference_date": reference_date.isoformat() if reference_date else "system date (legacy)",
         "scenarios": results,
         "top1_accuracy": round(top1_rate, 4),
         "top3_hit_rate": round(top3_rate, 4),
@@ -222,7 +225,10 @@ def markdown(result: dict) -> str:
 
 
 def main() -> None:
-    result = run_all()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--reference-date", help="ISO-8601 date, e.g. 2026-09-21")
+    args = parser.parse_args()
+    result = run_all(date.fromisoformat(args.reference_date) if args.reference_date else None)
     OUT.mkdir(parents=True, exist_ok=True)
     (OUT / "root_cause_injection.json").write_text(
         json.dumps(result, ensure_ascii=False, indent=2), encoding="utf-8"

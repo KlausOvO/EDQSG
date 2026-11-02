@@ -131,12 +131,12 @@ def _cross_table_rates(
 
 
 def _stale_rates(
-    tables: dict[str, list[dict]], checks: list[dict], max_age_days: int
+    tables: dict[str, list[dict]], checks: list[dict], max_age_days: int, reference_date=None
 ) -> list[float]:
     from datetime import date, datetime
 
     rates: list[float] = []
-    today = date.today()
+    today = reference_date if reference_date is not None else date.today()
     for check in checks:
         rows = tables[check["table"]]
         column = check["column"]
@@ -156,7 +156,7 @@ def _stale_rates(
     return rates
 
 
-def compute_metrics(config: dict, tables: dict[str, list[dict]]) -> dict[str, float]:
+def compute_metrics(config: dict, tables: dict[str, list[dict]], reference_date=None) -> dict[str, float]:
     """按配置的 DQ/SG 规则计算各维度问题率与原始指标。"""
 
     metrics: dict[str, float] = {}
@@ -187,7 +187,7 @@ def compute_metrics(config: dict, tables: dict[str, list[dict]]) -> dict[str, fl
         metrics["dq.DQ6.rate"] = worst([r for _, _, r in orphan])
     if "DQ7" in dq_rules:
         max_age = int(config.get("stale_max_age_days", 90))
-        metrics["dq.DQ7.rate"] = worst(_stale_rates(tables, dq_rules["DQ7"]["checks"], max_age))
+        metrics["dq.DQ7.rate"] = worst(_stale_rates(tables, dq_rules["DQ7"]["checks"], max_age, reference_date))
     if "DQ8" in dq_rules:
         metrics["dq.DQ8.rate"] = worst(_missing_rates(tables, dq_rules["DQ8"]["checks"]))
 
@@ -308,9 +308,9 @@ def build_sg_indicators(
 
 
 def build_indicators(
-    config: dict, tables: dict[str, list[dict]]
+    config: dict, tables: dict[str, list[dict]], reference_date=None
 ) -> tuple[list[Indicator], dict[str, float]]:
-    metrics = compute_metrics(config, tables)
+    metrics = compute_metrics(config, tables, reference_date=reference_date)
     indicators = build_dq_indicators(config, tables, metrics)
     indicators.extend(build_sg_indicators(config, tables, metrics))
     return indicators, metrics

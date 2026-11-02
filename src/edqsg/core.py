@@ -176,6 +176,25 @@ class EDQSGModel:
             excluded_indicator_ids=excluded_ids,
         )
 
+    def evaluate_formal(
+        self,
+        indicators: Sequence[Indicator],
+        dq_weights: Mapping[str, float],
+        sg_weights: Mapping[str, float],
+        *,
+        admission_policy,
+        **evaluate_options,
+    ):
+        """Explicit admission-policy gate for formal grades; see admission.py.
+
+        Legacy evaluate() remains unchanged for historical reproducibility.
+        """
+        from .admission import evaluate_formal
+        return evaluate_formal(
+            self, indicators, dq_weights, sg_weights,
+            admission_policy=admission_policy, **evaluate_options,
+        )
+
     @staticmethod
     def compare(before: AssessmentReport, after: AssessmentReport):
         return ReassessmentEngine.compare(before, after)
