@@ -1,0 +1,686 @@
+{
+  "reference_date": "2026-09-21",
+  "baseline": {
+    "scenarios": [
+      {
+        "scenario": "S0_clean",
+        "injected": "clean",
+        "expected": [],
+        "policies": {
+          "severity_only": {
+            "top3": [
+              "SG4",
+              "SG1",
+              "SG8"
+            ],
+            "hit_top1": null,
+            "hit_top3": null,
+            "rank_of_expected": null,
+            "rr": null
+          },
+          "strength_only": {
+            "top3": [
+              "SG3",
+              "SG7",
+              "SG8"
+            ],
+            "hit_top1": null,
+            "hit_top3": null,
+            "rank_of_expected": null,
+            "rr": null
+          },
+          "simplified": {
+            "top3": [
+              "SG1",
+              "SG2",
+              "SG3"
+            ],
+            "hit_top1": null,
+            "hit_top3": null,
+            "rank_of_expected": null,
+            "rr": null
+          },
+          "edqsg_full": {
+            "top3": [],
+            "hit_top1": null,
+            "hit_top3": null,
+            "rank_of_expected": null,
+            "rr": null
+          }
+        }
+      },
+      {
+        "scenario": "S1_orphan",
+        "injected": "orphan",
+        "expected": [
+          "SG3"
+        ],
+        "policies": {
+          "severity_only": {
+            "top3": [
+              "SG4",
+              "SG1",
+              "SG8"
+            ],
+            "hit_top1": 0,
+            "hit_top3": 0,
+            "rank_of_expected": 7,
+            "rr": 0.1429
+          },
+          "strength_only": {
+            "top3": [
+              "SG3",
+              "SG7",
+              "SG8"
+            ],
+            "hit_top1": 1,
+            "hit_top3": 1,
+            "rank_of_expected": 1,
+            "rr": 1.0
+          },
+          "simplified": {
+            "top3": [
+              "SG3",
+              "SG1",
+              "SG2"
+            ],
+            "hit_top1": 1,
+            "hit_top3": 1,
+            "rank_of_expected": 1,
+            "rr": 1.0
+          },
+          "edqsg_full": {
+            "top3": [
+              "SG3"
+            ],
+            "hit_top1": 1,
+            "hit_top3": 1,
+            "rank_of_expected": 1,
+            "rr": 1.0
+          }
+        }
+      },
+      {
+        "scenario": "S2_master_conflict",
+        "injected": "master_conflict",
+        "expected": [
+          "SG7"
+        ],
+        "policies": {
+          "severity_only": {
+            "top3": [
+              "SG4",
+              "SG1",
+              "SG8"
+            ],
+            "hit_top1": 0,
+            "hit_top3": 0,
+            "rank_of_expected": 7,
+            "rr": 0.1429
+          },
+          "strength_only": {
+            "top3": [
+              "SG3",
+              "SG7",
+              "SG8"
+            ],
+            "hit_top1": 0,
+            "hit_top3": 1,
+            "rank_of_expected": 2,
+            "rr": 0.5
+          },
+          "simplified": {
+            "top3": [
+              "SG7",
+              "SG1",
+              "SG2"
+            ],
+            "hit_top1": 1,
+            "hit_top3": 1,
+            "rank_of_expected": 1,
+            "rr": 1.0
+          },
+          "edqsg_full": {
+            "top3": [
+              "SG7"
+            ],
+            "hit_top1": 1,
+            "hit_top3": 1,
+            "rank_of_expected": 1,
+            "rr": 1.0
+          }
+        }
+      },
+      {
+        "scenario": "S3_duplicate",
+        "injected": "duplicate",
+        "expected": [
+          "SG3"
+        ],
+        "policies": {
+          "severity_only": {
+            "top3": [
+              "SG4",
+              "SG1",
+              "SG8"
+            ],
+            "hit_top1": 0,
+            "hit_top3": 0,
+            "rank_of_expected": 7,
+            "rr": 0.1429
+          },
+          "strength_only": {
+            "top3": [
+              "SG3",
+              "SG7",
+              "SG8"
+            ],
+            "hit_top1": 1,
+            "hit_top3": 1,
+            "rank_of_expected": 1,
+            "rr": 1.0
+          },
+          "simplified": {
+            "top3": [
+              "SG3",
+              "SG1",
+              "SG2"
+            ],
+            "hit_top1": 1,
+            "hit_top3": 1,
+            "rank_of_expected": 1,
+            "rr": 1.0
+          },
+          "edqsg_full": {
+            "top3": [
+              "SG3"
+            ],
+            "hit_top1": 1,
+            "hit_top3": 1,
+            "rank_of_expected": 1,
+            "rr": 1.0
+          }
+        }
+      },
+      {
+        "scenario": "S4_missing",
+        "injected": "missing",
+        "expected": [
+          "SG3"
+        ],
+        "policies": {
+          "severity_only": {
+            "top3": [
+              "SG4",
+              "SG1",
+              "SG8"
+            ],
+            "hit_top1": 0,
+            "hit_top3": 0,
+            "rank_of_expected": 7,
+            "rr": 0.1429
+          },
+          "strength_only": {
+            "top3": [
+              "SG3",
+              "SG7",
+              "SG8"
+            ],
+            "hit_top1": 1,
+            "hit_top3": 1,
+            "rank_of_expected": 1,
+            "rr": 1.0
+          },
+          "simplified": {
+            "top3": [
+              "SG3",
+              "SG1",
+              "SG2"
+            ],
+            "hit_top1": 1,
+            "hit_top3": 1,
+            "rank_of_expected": 1,
+            "rr": 1.0
+          },
+          "edqsg_full": {
+            "top3": [
+              "SG3"
+            ],
+            "hit_top1": 1,
+            "hit_top3": 1,
+            "rank_of_expected": 1,
+            "rr": 1.0
+          }
+        }
+      },
+      {
+        "scenario": "S5_stale",
+        "injected": "stale",
+        "expected": [
+          "SG8"
+        ],
+        "policies": {
+          "severity_only": {
+            "top3": [
+              "SG4",
+              "SG1",
+              "SG8"
+            ],
+            "hit_top1": 0,
+            "hit_top3": 1,
+            "rank_of_expected": 3,
+            "rr": 0.3333
+          },
+          "strength_only": {
+            "top3": [
+              "SG3",
+              "SG7",
+              "SG8"
+            ],
+            "hit_top1": 0,
+            "hit_top3": 1,
+            "rank_of_expected": 3,
+            "rr": 0.3333
+          },
+          "simplified": {
+            "top3": [
+              "SG8",
+              "SG1",
+              "SG2"
+            ],
+            "hit_top1": 1,
+            "hit_top3": 1,
+            "rank_of_expected": 1,
+            "rr": 1.0
+          },
+          "edqsg_full": {
+            "top3": [
+              "SG8"
+            ],
+            "hit_top1": 1,
+            "hit_top3": 1,
+            "rank_of_expected": 1,
+            "rr": 1.0
+          }
+        }
+      },
+      {
+        "scenario": "S6_audit_missing",
+        "injected": "audit_missing",
+        "expected": [
+          "SG8"
+        ],
+        "policies": {
+          "severity_only": {
+            "top3": [
+              "SG4",
+              "SG1",
+              "SG8"
+            ],
+            "hit_top1": 0,
+            "hit_top3": 1,
+            "rank_of_expected": 3,
+            "rr": 0.3333
+          },
+          "strength_only": {
+            "top3": [
+              "SG3",
+              "SG7",
+              "SG8"
+            ],
+            "hit_top1": 0,
+            "hit_top3": 1,
+            "rank_of_expected": 3,
+            "rr": 0.3333
+          },
+          "simplified": {
+            "top3": [
+              "SG8",
+              "SG1",
+              "SG2"
+            ],
+            "hit_top1": 1,
+            "hit_top3": 1,
+            "rank_of_expected": 1,
+            "rr": 1.0
+          },
+          "edqsg_full": {
+            "top3": [
+              "SG8"
+            ],
+            "hit_top1": 1,
+            "hit_top3": 1,
+            "rank_of_expected": 1,
+            "rr": 1.0
+          }
+        }
+      },
+      {
+        "scenario": "S7_authority_conflict",
+        "injected": "authority_conflict",
+        "expected": [
+          "SG7"
+        ],
+        "policies": {
+          "severity_only": {
+            "top3": [
+              "SG4",
+              "SG1",
+              "SG8"
+            ],
+            "hit_top1": 0,
+            "hit_top3": 0,
+            "rank_of_expected": 8,
+            "rr": 0.125
+          },
+          "strength_only": {
+            "top3": [
+              "SG3",
+              "SG7",
+              "SG8"
+            ],
+            "hit_top1": 0,
+            "hit_top3": 1,
+            "rank_of_expected": 2,
+            "rr": 0.5
+          },
+          "simplified": {
+            "top3": [
+              "SG7",
+              "SG1",
+              "SG2"
+            ],
+            "hit_top1": 1,
+            "hit_top3": 1,
+            "rank_of_expected": 1,
+            "rr": 1.0
+          },
+          "edqsg_full": {
+            "top3": [
+              "SG7"
+            ],
+            "hit_top1": 1,
+            "hit_top3": 1,
+            "rank_of_expected": 1,
+            "rr": 1.0
+          }
+        }
+      },
+      {
+        "scenario": "S8_domain_violation",
+        "injected": "domain_violation",
+        "expected": [
+          "SG3"
+        ],
+        "policies": {
+          "severity_only": {
+            "top3": [
+              "SG4",
+              "SG1",
+              "SG8"
+            ],
+            "hit_top1": 0,
+            "hit_top3": 0,
+            "rank_of_expected": 7,
+            "rr": 0.1429
+          },
+          "strength_only": {
+            "top3": [
+              "SG3",
+              "SG7",
+              "SG8"
+            ],
+            "hit_top1": 1,
+            "hit_top3": 1,
+            "rank_of_expected": 1,
+            "rr": 1.0
+          },
+          "simplified": {
+            "top3": [
+              "SG3",
+              "SG1",
+              "SG2"
+            ],
+            "hit_top1": 1,
+            "hit_top3": 1,
+            "rank_of_expected": 1,
+            "rr": 1.0
+          },
+          "edqsg_full": {
+            "top3": [
+              "SG3"
+            ],
+            "hit_top1": 1,
+            "hit_top3": 1,
+            "rank_of_expected": 1,
+            "rr": 1.0
+          }
+        }
+      },
+      {
+        "scenario": "S9_combined",
+        "injected": "combined",
+        "expected": [
+          "SG3",
+          "SG7"
+        ],
+        "policies": {
+          "severity_only": {
+            "top3": [
+              "SG4",
+              "SG1",
+              "SG8"
+            ],
+            "hit_top1": 0,
+            "hit_top3": 0,
+            "rank_of_expected": 7,
+            "rr": 0.1429
+          },
+          "strength_only": {
+            "top3": [
+              "SG3",
+              "SG7",
+              "SG8"
+            ],
+            "hit_top1": 1,
+            "hit_top3": 1,
+            "rank_of_expected": 1,
+            "rr": 1.0
+          },
+          "simplified": {
+            "top3": [
+              "SG3",
+              "SG7",
+              "SG1"
+            ],
+            "hit_top1": 1,
+            "hit_top3": 1,
+            "rank_of_expected": 1,
+            "rr": 1.0
+          },
+          "edqsg_full": {
+            "top3": [
+              "SG7"
+            ],
+            "hit_top1": 1,
+            "hit_top3": 1,
+            "rank_of_expected": 1,
+            "rr": 1.0
+          }
+        }
+      }
+    ],
+    "summary": {
+      "severity_only": {
+        "top1_accuracy": 0.0,
+        "top3_hit_rate": 0.2222,
+        "mrr": 0.1832
+      },
+      "strength_only": {
+        "top1_accuracy": 0.5556,
+        "top3_hit_rate": 1.0,
+        "mrr": 0.7407
+      },
+      "simplified": {
+        "top1_accuracy": 1.0,
+        "top3_hit_rate": 1.0,
+        "mrr": 1.0
+      },
+      "edqsg_full": {
+        "top1_accuracy": 1.0,
+        "top3_hit_rate": 1.0,
+        "mrr": 1.0
+      }
+    }
+  },
+  "deletion": {
+    "0.25": {
+      "ratio": 0.25,
+      "deleted": 2,
+      "total_relations": 8,
+      "repeats": 30,
+      "edqsg_full": [
+        0.7777777777777778,
+        0.7777777777777778,
+        0.7777777777777778,
+        0.7777777777777778,
+        0.7777777777777778,
+        0.6666666666666666,
+        0.6666666666666666,
+        0.7777777777777778,
+        0.7777777777777778,
+        0.7777777777777778,
+        0.7777777777777778,
+        0.7777777777777778,
+        0.7777777777777778,
+        0.6666666666666666,
+        0.7777777777777778,
+        0.7777777777777778,
+        0.7777777777777778,
+        0.7777777777777778,
+        0.7777777777777778,
+        0.7777777777777778,
+        0.7777777777777778,
+        0.6666666666666666,
+        0.7777777777777778,
+        0.7777777777777778,
+        0.7777777777777778,
+        0.7777777777777778,
+        0.7777777777777778,
+        0.6666666666666666,
+        0.6666666666666666,
+        0.7777777777777778
+      ],
+      "simplified": [
+        0.7777777777777778,
+        0.7777777777777778,
+        0.7777777777777778,
+        0.7777777777777778,
+        0.7777777777777778,
+        0.7777777777777778,
+        0.7777777777777778,
+        0.7777777777777778,
+        0.7777777777777778,
+        0.7777777777777778,
+        0.7777777777777778,
+        0.7777777777777778,
+        0.7777777777777778,
+        0.7777777777777778,
+        0.7777777777777778,
+        0.7777777777777778,
+        0.7777777777777778,
+        0.7777777777777778,
+        0.7777777777777778,
+        0.7777777777777778,
+        0.7777777777777778,
+        0.7777777777777778,
+        0.7777777777777778,
+        0.7777777777777778,
+        0.7777777777777778,
+        0.7777777777777778,
+        0.7777777777777778,
+        0.7777777777777778,
+        0.7777777777777778,
+        0.7777777777777778
+      ],
+      "edqsg_full_mean": 0.7556,
+      "simplified_mean": 0.7778,
+      "edqsg_full_std": 0.0452,
+      "simplified_std": 0.0
+    },
+    "0.5": {
+      "ratio": 0.5,
+      "deleted": 4,
+      "total_relations": 8,
+      "repeats": 30,
+      "edqsg_full": [
+        0.5555555555555556,
+        0.5555555555555556,
+        0.4444444444444444,
+        0.5555555555555556,
+        0.5555555555555556,
+        0.4444444444444444,
+        0.4444444444444444,
+        0.4444444444444444,
+        0.5555555555555556,
+        0.5555555555555556,
+        0.5555555555555556,
+        0.5555555555555556,
+        0.4444444444444444,
+        0.4444444444444444,
+        0.5555555555555556,
+        0.5555555555555556,
+        0.5555555555555556,
+        0.5555555555555556,
+        0.5555555555555556,
+        0.5555555555555556,
+        0.5555555555555556,
+        0.4444444444444444,
+        0.5555555555555556,
+        0.4444444444444444,
+        0.4444444444444444,
+        0.4444444444444444,
+        0.5555555555555556,
+        0.4444444444444444,
+        0.4444444444444444,
+        0.5555555555555556
+      ],
+      "simplified": [
+        0.5555555555555556,
+        0.5555555555555556,
+        0.5555555555555556,
+        0.5555555555555556,
+        0.5555555555555556,
+        0.4444444444444444,
+        0.4444444444444444,
+        0.5555555555555556,
+        0.5555555555555556,
+        0.5555555555555556,
+        0.5555555555555556,
+        0.5555555555555556,
+        0.5555555555555556,
+        0.5555555555555556,
+        0.5555555555555556,
+        0.5555555555555556,
+        0.5555555555555556,
+        0.5555555555555556,
+        0.5555555555555556,
+        0.5555555555555556,
+        0.5555555555555556,
+        0.4444444444444444,
+        0.5555555555555556,
+        0.5555555555555556,
+        0.4444444444444444,
+        0.5555555555555556,
+        0.5555555555555556,
+        0.5555555555555556,
+        0.5555555555555556,
+        0.5555555555555556
+      ],
+      "edqsg_full_mean": 0.5111,
+      "simplified_mean": 0.5407,
+      "edqsg_full_std": 0.0554,
+      "simplified_std": 0.0384
+    }
+  }
+}
